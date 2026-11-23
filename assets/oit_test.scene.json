@@ -1,0 +1,139 @@
+{
+ "name": "oit_test",
+ "environment": {
+  "sun_intensity": 1.5,
+  "sky_zenith": [
+   0.1,
+   0.14,
+   0.24
+  ],
+  "sky_horizon": [
+   0.5,
+   0.5,
+   0.52
+  ],
+  "fog_density": 0.001
+ },
+ "root": {
+  "children": [
+   {
+    "name": "ground",
+    "mesh": {
+     "builder": "ground_grid",
+     "args": {
+      "half": 60,
+      "tile": 5.0
+     }
+    },
+    "material": {
+     "preset": "marble",
+     "base_color": [
+      0.22,
+      0.21,
+      0.19
+     ],
+     "roughness": 0.9
+    }
+   },
+   {
+    "name": "glass0",
+    "translation": [
+     0,
+     8,
+     -6
+    ],
+    "mesh": {
+     "builder": "box",
+     "args": {
+      "sx": 14,
+      "sy": 14,
+      "sz": 0.4,
+      "color": [
+       0.92,
+       0.22,
+       0.18
+      ]
+     }
+    },
+    "material": {
+     "preset": "marble",
+     "base_color": [
+      0.92,
+      0.22,
+      0.18
+     ],
+     "roughness": 0.15,
+     "metallic": 0.0,
+     "alpha": 0.5,
+     "alpha_mode": "BLEND"
+    }
+   },
+   {
+    "name": "glass1",
+    "translation": [
+     0,
+     8,
+     -14
+    ],
+    "mesh": {
+     "builder": "box",
+     "args": {
+      "sx": 14,
+      "sy": 14,
+      "sz": 0.4,
+      "color": [
+       0.92,
+       0.22,
+       0.18
+      ]
+     }
+    },
+    "material": {
+     "preset": "marble",
+     "base_color": [
+      0.92,
+      0.22,
+      0.18
+     ],
+     "roughness": 0.15,
+     "metallic": 0.0,
+     "alpha": 0.5,
+     "alpha_mode": "BLEND"
+    }
+   },
+   {
+    "name": "glass2",
+    "translation": [
+     0,
+     8,
+     -22
+    ],
+    "mesh": {
+     "builder": "box",
+     "args": {
+      "sx": 14,
+      "sy": 14,
+      "sz": 0.4,
+      "color": [
+       0.92,
+       0.22,
+       0.18
+      ]
+     }
+    },
+    "material": {
+     "preset": "marble",
+     "base_color": [
+      0.92,
+      0.22,
+      0.18
+     ],
+     "roughness": 0.15,
+     "metallic": 0.0,
+     "alpha": 0.5,
+     "alpha_mode": "BLEND"
+    }
+   }
+  ]
+ }
+}
