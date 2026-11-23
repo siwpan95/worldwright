@@ -57,6 +57,29 @@ tests/
 docs/
 ```
 
+## W5 出片
+
+```bash
+python -m worldwright.deliver --scene assets/journey.scene.json     --shot assets/journey.shot.json --start 0 --end 84 --fps 24     --size 640x360 --out out/journey_full.mp4
+```
+
+**关键设计**：`preview.py` 每次调用都重建场景（最贵的一步），2016 帧要 40 分钟。
+`deliver.py` **只建一次**，循环里只做 `apply(t) + render + 读像素 + 写 PPM`，
+**每帧 43ms**，2016 帧 86 秒。
+
+**实测**：
+
+| 项 | 值 |
+|---|---|
+| 渲染 | 2016 帧 / 86 秒 |
+| 成片 | 84.0 秒 / 640×360 / 24fps / H.264 / 3.2 MB |
+| 从成片抽帧（15/43/70s） | unique 2434 / 930 / 903，三色调不同 |
+
+**踩的坑**：
+- 首版 PPM 用逐像素 Python 双循环 —— 640×360 一帧要几十秒，2000 帧就是几小时。
+  **numpy 几毫秒**。
+- 本机 `E:fmpegin` **只有 ffmpeg.exe，没有 ffprobe** —— `probe()` 改用 `ffmpeg -i`。
+
 ## W4 的"12 区"实际是 3 段
 
 同 W1 的原因：`worldbuilder` 只产出 terrain / town / dungeon。
@@ -183,7 +206,7 @@ python -m worldwright.tools.find_camera --scene assets/r03_city.scene.json
 | **W2** 表现升级 | 6 个能力逐个接入（dof / motionblur / oit / csm / soft_shadow / volumetrics） | 每项：开关对比 + 调用计数 | **2.5 / 6** |
 | **W3** 热调 | `dev.py` 轮询 `assets/params.json`，改 seed 即重建 | 改 seed 内容真的变（`torch0` 位置从 -46→-1.4） | ✅ |
 | **W4** 世界编排 | 三段（河谷/城邦/洞窟）沿 +X 摆开 + 总镜头 | 一条连续路径 | ✅ **3 段**（见下注） |
-| **W5** 出片 | delivery | 成片（最后） | 待做 |
+| **W5** 出片 | `deliver.py` | 84 秒 / 2016 帧 / 3.2MB | ✅ |
 
 **W2 明细**（每项单独发版，像 0.9.2 的点光源那样）：
 
