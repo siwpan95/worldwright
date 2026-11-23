@@ -87,6 +87,17 @@ def build_scene(d):
             'fog_falloff': 0.020,
             'fog_color': [0.045, 0.042, 0.040],
         },
+        # 点光源（引擎 0.9.2 起 scene JSON 支持）：前 4 个房间各一盏火把。
+        # 上限就是 4（shader 里是 4 个具名 uniform）；radius 12m 让光只覆盖
+        # 本房间，不泄漏到隔壁 —— 这正是 0.9.2 加平滑窗口要解决的问题。
+        'lights': [
+            {'pos': [round((r['cx'] / (GW - 1) - 0.5) * WORLD_W, 2),
+                     3.4,
+                     round((r['cy'] / (GH - 1) - 0.5) * WORLD_D, 2)],
+             'color': [900.0, 540.0, 250.0],   # HDR：1/d² 在 10m 处只剩 1%，所以颜色要给到千量级
+             'radius': 12.0}
+            for r in d['rooms'][:4]
+        ],
         'root': {'name': 'root', 'children': [
             {'name': 'floor',
              'mesh': {'builder': 'heightfield',
