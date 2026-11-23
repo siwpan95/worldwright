@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "worldwright"
-version = "0.0.1"
+version = "0.1.0"
 description = "《造界》—— 用 3dworld 搭的世界建模项目（12 区域 / 94 能力）"
 readme = "README.md"
 requires-python = ">=3.11"
