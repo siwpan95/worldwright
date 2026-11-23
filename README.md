@@ -97,6 +97,26 @@ python -m worldwright.tools.find_camera --scene assets/r03_city.scene.json
   **三者一起看**：std 大但 unique 低 → 是渐变不是内容。
 
 
+## W1 的 3/3 是什么范围（重要，避免误判"还剩 9 幕没做"）
+
+`worldbuilder` 只产出**三类**世界数据：`terrain_source` / `town` / `dungeon_source`。
+12 幕里能对上号的只有三幕：
+
+| 幕 | worldbuilder 数据源 |
+|---|---|
+| r02 地脉 | `height` + `rivers`（terrain_source） |
+| r03 城邦 | `generate_town()` 的 ward + streets |
+| r06 洞窟 | `generate_dungeon()` 的 grid + rooms |
+
+**剩下 9 幕（机械/晶体/群/体/场/虚空/回环/收束）在 worldbuilder 里没有对应数据源** ——
+它们不是"没做完"，是**"这一类场景本来就不由 worldbuilder 生成"**。
+
+所以 W1 的 3/3 是**"worldbuilder 覆盖范围内的全部"**，不是"12 个里的 3 个"。
+剩下 9 幕只有两条路：
+1. **保持手搓**（合理：它们本来就不是地理类场景）；
+2. **扩展 worldbuilder**（比如加机械/晶体的 generator）—— 那是另一个项目级决定，
+   得先问清楚"这些场景是否该由 worldbuilder 负责"。
+
 ## 现状（诚实版）
 
 | 层 | 状态 | 说明 |
@@ -139,7 +159,7 @@ python -m worldwright.tools.find_camera --scene assets/r03_city.scene.json
 | 里程碑 | 内容 | 完成标志 | 状态 |
 |---|---|---|---|
 | **W0** 桥接 | `bridge.py`：boot → 契约 → worldbuilder 世界数据 | 契约 8 条 + 世界断言过 | ✅ |
-| **W1** 三区重做 | r02/r03/r06 改消费 worldbuilder | 与 worldbuilder 输出**一致** | ✅ **3/3** |
+| **W1** 三区重做 | r02/r03/r06 改消费 worldbuilder | 与 worldbuilder 输出**一致** | ✅ **3/3**（见下注） |
 | **W2** 表现升级 | 6 个能力逐个接入（dof / motionblur / oit / csm / soft_shadow / volumetrics） | 每项：开关对比 + 调用计数 | **2.5 / 6** |
 | **W3** 热调 | 接 `superengine.live`（Cordis Hmr） | 改 seed 就地重建，不重启进程 | 待做 |
 | **W4** 世界编排 | 12 区统一坐标 + 流式加载 | 一条连续路径 | 待做 |
