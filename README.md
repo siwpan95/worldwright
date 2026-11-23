@@ -57,6 +57,26 @@ tests/
 docs/
 ```
 
+## W4 的"12 区"实际是 3 段
+
+同 W1 的原因：`worldbuilder` 只产出 terrain / town / dungeon。
+`regions/journey.py` 把这三段沿 +X 摆开（偏移 0 / 400 / 900 米），用一条总镜头穿过去：
+
+```bash
+python -m worldwright.regions.journey
+python -m worldwright.render.preview --scene assets/journey.scene.json     --shot assets/journey.shot.json --t 43
+```
+
+**环境随镜头切换**（`$env` 通道 + `ShotPlayer._apply_env` 支持任意属性）：
+河谷 `sun=1.30/fog=0.0032` → 城邦 `0.75/0.0060` → 洞窟 `0.35/0.0120`，
+段间 1.5 秒过渡。
+
+实测三帧（`out/jr_sheet.png`）：unique 2195 / 1005 / 1595，色调分别偏蓝 / 偏暖 / 偏暗，
+**三段确实不同**。
+
+**未做的**：流式加载（现在是三个场景一次性全进内存，95 节点、229KB）。
+真流式要按相机 X 坐标动态挂载/卸载区段，那是 W4 之后的优化。
+
 ## 工具：自动找机位
 
 「找不到能证明能力的那一帧」在一天里发生三次（水面、洞窟、运动模糊），
@@ -162,7 +182,7 @@ python -m worldwright.tools.find_camera --scene assets/r03_city.scene.json
 | **W1** 三区重做 | r02/r03/r06 改消费 worldbuilder | 与 worldbuilder 输出**一致** | ✅ **3/3**（见下注） |
 | **W2** 表现升级 | 6 个能力逐个接入（dof / motionblur / oit / csm / soft_shadow / volumetrics） | 每项：开关对比 + 调用计数 | **2.5 / 6** |
 | **W3** 热调 | `dev.py` 轮询 `assets/params.json`，改 seed 即重建 | 改 seed 内容真的变（`torch0` 位置从 -46→-1.4） | ✅ |
-| **W4** 世界编排 | 12 区统一坐标 + 流式加载 | 一条连续路径 | 待做 |
+| **W4** 世界编排 | 三段（河谷/城邦/洞窟）沿 +X 摆开 + 总镜头 | 一条连续路径 | ✅ **3 段**（见下注） |
 | **W5** 出片 | delivery | 成片（最后） | 待做 |
 
 **W2 明细**（每项单独发版，像 0.9.2 的点光源那样）：
