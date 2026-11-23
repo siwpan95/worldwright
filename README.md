@@ -140,10 +140,21 @@ python -m worldwright.tools.find_camera --scene assets/r03_city.scene.json
 |---|---|---|---|
 | **W0** 桥接 | `bridge.py`：boot → 契约 → worldbuilder 世界数据 | 契约 8 条 + 世界断言过 | ✅ |
 | **W1** 三区重做 | r02/r03/r06 改消费 worldbuilder | 与 worldbuilder 输出**一致** | ✅ **3/3** |
-| **W2** 表现升级 | csm / soft_shadow / volumetrics / dof / oit 接进 render_sink | 同机位开关对比 + 调用计数 | 待做 |
+| **W2** 表现升级 | 6 个能力逐个接入（dof / motionblur / oit / csm / soft_shadow / volumetrics） | 每项：开关对比 + 调用计数 | **2.5 / 6** |
 | **W3** 热调 | 接 `superengine.live`（Cordis Hmr） | 改 seed 就地重建，不重启进程 | 待做 |
 | **W4** 世界编排 | 12 区统一坐标 + 流式加载 | 一条连续路径 | 待做 |
 | **W5** 出片 | delivery | 成片（最后） | 待做 |
+
+**W2 明细**（每项单独发版，像 0.9.2 的点光源那样）：
+
+| 能力 | 版本 | 状态 | 说明 |
+|---|---|---|---|
+| dof 景深 | 0.9.3 | ⚠️ 管线通 | focus 标定未收敛（整片都虚） |
+| motionblur | 0.9.4 | ⚠️ 部分 | 有模糊证据、方向性未确认 |
+| oit 透明 | — | ❌ **阻塞** | 接线完成，但**透明路径把颜色洗白**（同一块红板：不透明 [134,37,36] / 透明 [167,167,166]）。范围已缩到 `wboit_composite` 的权重函数与色彩空间 |
+| csm 级联阴影 | — | ❌ 未做 | 需 shadow map FBO + 光源视角 pass + pbr 采样 |
+| soft_shadow | — | ❌ 未做 | 依赖 csm |
+| volumetrics | — | ❌ 未做 | 射线步进 + 深度采样（第 X 幕收益最大） |
 
 **W3 就是"实时漫游 + 参数热调"的地基** —— `superengine/live.py` 已实现 Cordis
 `Hmr` 两阶段 reload，不需要重新调研。
