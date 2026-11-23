@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """第 VI 幕「洞窟」场景生成器 —— 两层高度场夹出的地下通道 + 火把。
 
 为什么用"双层 heightfield"而不是元胞洞穴
@@ -25,7 +24,7 @@ ROOT = os.path.dirname(FILM_DIR)
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-from world3d.logic.noise import heightmap                      # noqa: E402
+from world3d.logic.noise import heightmap
 
 DURATION = 64.0
 GRID = 72

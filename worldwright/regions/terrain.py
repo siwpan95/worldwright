@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """第 II 幕「地脉」场景生成器 —— 程序化地形，JSON 只是产物。
 
 为什么不手写 scene JSON
@@ -30,7 +29,7 @@ ROOT = os.path.dirname(FILM_DIR)
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-from world3d.logic.noise import heightmap                      # noqa: E402
+from world3d.logic.noise import heightmap
 
 BASIN_V = 0.02        # 天池中心（归一化 v）：放在相机低飞段（t≈50）下方
 BASIN_Z = BASIN_V * 80.0   # 换成世界 z（TERRAIN_SIZE/2 = 80）
@@ -115,8 +114,8 @@ def ground_at(hm, x, z):
     half = TERRAIN_SIZE / 2.0
     if abs(x) > half or abs(z) > half:
         return -4.0
-    c = int(round((x / half + 1.0) / 2.0 * (GRID - 1)))
-    r = int(round((z / half + 1.0) / 2.0 * (GRID - 1)))
+    c = round((x / half + 1.0) / 2.0 * (GRID - 1))
+    r = round((z / half + 1.0) / 2.0 * (GRID - 1))
     c = max(0, min(GRID - 1, c))
     r = max(0, min(GRID - 1, r))
     return -4.0 + hm[r][c] * TERRAIN_HEIGHT

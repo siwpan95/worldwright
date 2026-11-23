@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """能力矩阵生成器 —— 67 个 demo → 12 幕的归属表，**缺一个就报错**。
 
 为什么用生成器而不是手写 markdown
@@ -31,29 +30,29 @@ ACTS = {
     '02_terrain': ('地脉', 66.0,
                    ['terrain_flyover', 'terrainward', 'cdlod_terrain', 'water_waves',
                     'volumetric_fog', 'godhand', 'demoscene_tunnel'],
-                   'logic/terrain、terrain_lod、terrain_clipmap、logic/waves、'
-                   'engine/volumetrics、core/terrain_core、shaders→tunnel'),
+                   ('logic/terrain、terrain_lod、terrain_clipmap、logic/waves、'
+                   'engine/volumetrics、core/terrain_core、shaders→tunnel')),
     '03_city': ('城邦', 80.0,
                 ['wardfall', 'lindenwood', 'collapseward', 'texward', 'sandward',
                  'material_lab', 'shadow_map', 'crowdward', 'blockworld',
                  'minecraft_style', 'tower_defense', 'scene_walker'],
-                'logic/town、logic/lsystem、logic/wfc、engine/proctex、engine/texproj、'
+                ('logic/town、logic/lsystem、logic/wfc、engine/proctex、engine/texproj、'
                 'engine/texture、engine/soft_shadow、behavior_tree + pathing_core、'
-                'logic/blocks、games/tower_defense、adaptive_music'),
+                'logic/blocks、games/tower_defense、adaptive_music')),
     '04_machine': ('机械', 74.0,
                    ['choreoward', 'boxward', 'brickward', 'eventward', 'fsmward',
                     'skinned_creature', 'ozzward', 'gltfward', 'kkriegerward'],
-                   'logic/skeleton、logic/animation、anim/ozz_lite、engine/skin、'
-                   'engine/gltf、engine/orchestration.Bus、engine/fsm、logic/choreography'),
+                   ('logic/skeleton、logic/animation、anim/ozz_lite、engine/skin、'
+                   'engine/gltf、engine/orchestration.Bus、engine/fsm、logic/choreography')),
     '05_crystal': ('晶体', 64.0,
                    ['crystalward', 'posterward', 'raymarch_sdf', 'stillhall', 'dof_focus'],
-                   'engine/spectrum、spectral_glsl、sdf2d、sdf2d_glsl、'
-                   'shaders→raymarch、engine/dof、games/hall'),
+                   ('engine/spectrum、spectral_glsl、sdf2d、sdf2d_glsl、'
+                   'shaders→raymarch、engine/dof、games/hall')),
     '06_cave': ('洞窟', 64.0,
                 ['dungeonward', 'cellward', 'voxel_terrain', 'brogueward', 'rayhold',
                  'liminall'],
-                'logic/dungeon、logic/ca、logic/voxel、logic/fov、engine/particles、'
-                'shaders→tunnel、logic/liminall、games/fps'),
+                ('logic/dungeon、logic/ca、logic/voxel、logic/fov、engine/particles、'
+                'shaders→tunnel、logic/liminall、games/fps')),
     '07_swarm': ('法则·群', 58.0,
                  ['boids', 'boidward', 'swarmward', 'pulsefall'],
                  'logic/boids、engine/particles、games/storm、games/pulse、engine/audio'),
@@ -63,21 +62,21 @@ ACTS = {
     '09_field': ('法则·场', 54.0,
                  ['pointcloud_edl', 'gpu_cull_field', 'computeward', 'curveward',
                   'flowward', 'reactward'],
-                 'engine/pointcloud、engine/gpu_cull、engine/compute、logic/curves、'
-                 'engine/framegraph'),
+                 ('engine/pointcloud、engine/gpu_cull、engine/compute、logic/curves、'
+                 'engine/framegraph')),
     '10_void': ('虚空', 80.0,
                 ['voidward', 'solar_system', 'nordic_saga', 'kid_a_walker_3d',
                  'mountain', 'motion_blur'],
-                'logic/skeleton（轨道）、games/void、logic/nordic_saga、logic/kid_a、'
-                'engine/motionblur、adaptive_music'),
+                ('logic/skeleton（轨道）、games/void、logic/nordic_saga、logic/kid_a、'
+                'engine/motionblur、adaptive_music')),
     '11_loop': ('回环', 64.0,
                 ['csm_shadow'],
                 'engine/csm（另复用 mountain 的气象、lindenwood 的季节、volumetrics）'),
     '12_finale': ('收束', 47.0,
                   ['engine_showcase', 'frame_graph', 'replayward', 'director',
                    'scene_viewer', 'audioward'],
-                  'renderer(PBR/IBL) + postfx + framegraph + presentation/film + '
-                  'logic/replay + presentation/timeline_ui'),
+                  ('renderer(PBR/IBL) + postfx + framegraph + presentation/film + '
+                  'logic/replay + presentation/timeline_ui')),
 }
 
 
@@ -113,10 +112,10 @@ def render():
         '> **本文件由 `film/gen/matrix.py` 生成，不要手改。**',
         '> 归属写成数据、覆盖用集合差集对账：缺 / 多 / 重三种错都会让脚本非零退出。',
         '',
-        f'- 幕数 **{len(ACTS)}**，各幕时长合计 **{total:.1f}s**，'
-        f'扣掉 {len(ACTS) - 1} 处 xfade {xfade}s 后成片 **{film_len:.1f}s**',
-        f'- demo 总数 **{len(all_demos())}**，已归属 **{len(owner)}**，'
-        f'未归属 **{len(unowned)}**',
+        (f'- 幕数 **{len(ACTS)}**，各幕时长合计 **{total:.1f}s**，'
+        f'扣掉 {len(ACTS) - 1} 处 xfade {xfade}s 后成片 **{film_len:.1f}s**'),
+        (f'- demo 总数 **{len(all_demos())}**，已归属 **{len(owner)}**，'
+        f'未归属 **{len(unowned)}**'),
         '',
         '| # | 幕 | 时长 | demo 数 | demo（= 能力载体） | 引擎能力落点 |',
         '|---|---|---:|---:|---|---|',

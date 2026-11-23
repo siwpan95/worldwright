@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """第 VII 幕「群」场景生成器 —— 80 只 boid 的静态挂点 + 环境。
 
 本文件只生成**节点与材质**；真正的运动在 `film/render/rigs.py` 的 `SwarmRig`

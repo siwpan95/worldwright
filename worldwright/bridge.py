@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """桥接层 —— worldwright 消费 superengine 装配好的三仓。
 
 为什么存在
@@ -74,9 +73,9 @@ def world_summary(ctx, size: int = 24, seed: int = 20261123) -> dict:
         'min': round(float(h.min()), 4),
         'max': round(float(h.max()), 4),
         'mean': round(float(h.mean()), 4),
-        'biomes': int(len(np.unique(np.asarray(w['biomes'])))),
-        'rivers': int(len(w.get('rivers') or [])),
-        'lakes': int(len(w.get('lakes') or {})),
+        'biomes': len(np.unique(np.asarray(w['biomes']))),
+        'rivers': len(w.get('rivers') or []),
+        'lakes': len(w.get('lakes') or {}),
         'sea_level': round(float(w.get('sea_level', 0.0)), 4),
     }
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """第 V 幕「晶体」场景生成器 —— 一簇生长的晶柱。
 
 视觉母题：**秩序从内部长出来**。24 根六棱柱从暗色地面里长出来，倾斜角度与
@@ -48,8 +47,8 @@ def _crystal(idx, rng):
     x, z = math.cos(a) * r, math.sin(a) * r
     h = rng.uniform(5.0, 15.0) * (1.35 - r / 40.0)     # 外圈矮、内圈高
     rad = rng.uniform(0.7, 1.9) * (1.2 - r / 60.0)
-    tilt = rng.uniform(-13.0, 13.0)
-    yaw = rng.uniform(0, 360.0)
+    rng.uniform(-13.0, 13.0)
+    rng.uniform(0, 360.0)
     base, emis = PALETTE[idx % len(PALETTE)]
     # 提亮 1.45 倍：深色 + 暗环境时柱体全黑、只剩顶端高光（首版就是这个问题）
     base = tuple(min(1.0, c * 1.45) for c in base)

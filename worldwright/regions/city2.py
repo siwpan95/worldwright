@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """第 III 幕「城邦」—— 真 Voronoi 布局版。
 
 与旧版（网格街区）的区别
@@ -29,7 +28,7 @@ ROOT = os.path.dirname(FILM_DIR)
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-from world3d.logic.town import generate_town          # noqa: E402
+from world3d.logic.town import generate_town
 
 DURATION = 80.0
 SEED = 7
