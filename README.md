@@ -1,5 +1,11 @@
 # worldwright —— 用 `3dworld` 搭的「造界」
 
+#A production PCG pipeline separates generation, validation and presentation.
+
+> 出处：vgsources.com《Generative AI vs. Traditional Procedural Generation in Games》
+> （2026-11-23 调研）。本项目按这三层分工：worldbuilder（generation）/
+> superengine（validation）/ 3dworld + worldwright（presentation）。
+
 > 项目代号《造界》。**按独立游戏规格推进的世界建模项目**。
 > 视频是它最后的副产品，不是目标。
 
