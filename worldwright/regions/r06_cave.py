@@ -46,7 +46,9 @@ SHOT_OUT = os.path.join(_ROOT, 'assets', 'r06_cave.shot.json')
 def build_dungeon():
     from superengine.assembly import boot
     ctx, _ = boot()
-    return ctx.worldbuilder.generate_dungeon(GW, GH, rooms=ROOMS)
+    # `seed` 一定要传：首版漏了它，`--seed` 只改了全局常量，生成器拿的还是默认种子
+    # —— 表现是"重建了但内容一模一样"，而 mtime 又确实变了，很容易误判成功。
+    return ctx.worldbuilder.generate_dungeon(GW, GH, rooms=ROOMS, seed=SEED)
 
 
 def _room_path(d):
@@ -185,7 +187,12 @@ def build_shot(d):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument('--check', action='store_true')
+    ap.add_argument('--seed', type=int, default=None,
+                    help='覆盖模块里的默认种子（热调用的入口）')
     args = ap.parse_args(argv)
+    global SEED
+    if args.seed is not None:
+        SEED = int(args.seed)
     d = build_dungeon()
     scene = build_scene(d)
     shot = build_shot(d)

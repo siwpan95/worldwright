@@ -161,7 +161,7 @@ python -m worldwright.tools.find_camera --scene assets/r03_city.scene.json
 | **W0** 桥接 | `bridge.py`：boot → 契约 → worldbuilder 世界数据 | 契约 8 条 + 世界断言过 | ✅ |
 | **W1** 三区重做 | r02/r03/r06 改消费 worldbuilder | 与 worldbuilder 输出**一致** | ✅ **3/3**（见下注） |
 | **W2** 表现升级 | 6 个能力逐个接入（dof / motionblur / oit / csm / soft_shadow / volumetrics） | 每项：开关对比 + 调用计数 | **2.5 / 6** |
-| **W3** 热调 | 接 `superengine.live`（Cordis Hmr） | 改 seed 就地重建，不重启进程 | 待做 |
+| **W3** 热调 | `dev.py` 轮询 `assets/params.json`，改 seed 即重建 | 改 seed 内容真的变（`torch0` 位置从 -46→-1.4） | ✅ |
 | **W4** 世界编排 | 12 区统一坐标 + 流式加载 | 一条连续路径 | 待做 |
 | **W5** 出片 | delivery | 成片（最后） | 待做 |
 
@@ -176,8 +176,19 @@ python -m worldwright.tools.find_camera --scene assets/r03_city.scene.json
 | soft_shadow | — | ❌ 未做 | 依赖 csm |
 | volumetrics | — | ❌ 未做 | 射线步进 + 深度采样（第 X 幕收益最大） |
 
-**W3 就是"实时漫游 + 参数热调"的地基** —— `superengine/live.py` 已实现 Cordis
-`Hmr` 两阶段 reload，不需要重新调研。
+**W3 的取舍**：没用 `superengine.live` 的 Cordis Hmr —— 那是"改**源码**热替换 fiber"，
+而这里要的是"改**参数**重建数据"。两件事。用最笨的办法：轮询 `params.json` 的 mtime，
+变了就重跑该 region（0.7s/次）。
+
+```bash
+python -m worldwright.dev --region r06          # 常驻监听
+python -m worldwright.dev --region r03 --seed 42 # 重建一次
+```
+
+**踩的坑**：`r06` 的 `build_dungeon()` 里 `generate_dungeon(GW, GH, rooms=ROOMS)`
+**漏了 `seed=`** —— `--seed` 只改了模块常量，生成器拿的还是默认种子。
+表现是"重建了（mtime 变了）但内容一模一样"，**很容易误判成功**。
+修好后同一份参数下 `torch0` 从 `[-46.05, -21.21]` 变成 `[-1.4, 15.55]`。
 
 **顺序不可颠倒**：W0-W3 没完成就做 W5，结果就是过去 10 小时的东西。
 

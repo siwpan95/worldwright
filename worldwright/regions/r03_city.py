@@ -249,7 +249,12 @@ def build_shot(t, center):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument('--check', action='store_true')
+    ap.add_argument('--seed', type=int, default=None,
+                    help='覆盖模块里的默认种子（热调用的入口）')
     args = ap.parse_args(argv)
+    global SEED
+    if args.seed is not None:
+        SEED = int(args.seed)
     t = build_town()
     scene, center = build_scene(t)
     shot = build_shot(t, center)

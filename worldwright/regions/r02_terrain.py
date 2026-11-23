@@ -173,7 +173,12 @@ def build_shot(w):
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument('--check', action='store_true')
+    ap.add_argument('--seed', type=int, default=None,
+                    help='覆盖模块里的默认种子（热调用的入口）')
     args = ap.parse_args(argv)
+    global SEED
+    if args.seed is not None:
+        SEED = int(args.seed)
     w = build_world_data()
     scene, biome_idx = build_scene(w)
     shot = build_shot(w)
