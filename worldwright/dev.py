@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """参数热调 —— 改 `assets/params.json` 的 seed，区域就地重建。
 
 为什么不用 Cordis Hmr

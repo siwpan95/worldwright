@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """帧统计 —— 贴着一张 PNG 跑，回答"这一帧里到底有没有信号"。
 
 为什么独立成一个文件
@@ -53,7 +52,7 @@ def stat(path):
         'center': center,
         'corner_mean': corners.mean(0),
         'radial_delta': float(np.abs(center - corners.mean(0)).mean()),
-        'unique': int(len(np.unique(a.reshape(-1, 3).astype(np.uint8), axis=0))),
+        'unique': len(np.unique(a.reshape(-1, 3).astype(np.uint8), axis=0)),
     }
 
 
