@@ -55,11 +55,20 @@ docs/
 
 | 层 | 状态 | 说明 |
 |---|---|---|
-| `capabilities/` | **0 / 94** | 只有目录骨架，一个能力都没接 |
-| `regions/` | 12 个**原型** | 从 `3dworld-demos/film/gen/` 迁入的生成器，仍是"手搓几何" |
+| **`bridge.py`** | ✅ **W0 通** | 接上 `superengine.boot()`，8 条契约校验 + worldbuilder 世界数据断言 |
+| `capabilities/` | 0 / 94 | 但**大部分能力其实在另外三个仓里**，见 `docs/ARCHITECTURE.md` |
+| `regions/` | 12 个原型 | 从 `film/gen/` 迁入，仍是"手搓几何"，待改为消费 worldbuilder |
 | `world/` | 空 | 旧版世界层留在 `film/world.py` |
-| `delivery/` | 空 | 旧版 799s 成片作为**基线**保留在 `3dworld-demos/film/out/` |
-| 测试 | 空 | — |
+| `delivery/` | 空 | 旧版 799s 成片作为**基线**保留 |
+
+**W0 的实测输出**：
+
+```
+[bridge] 装配成功，8 条契约
+[bridge] world (24, 24) height 0.3639~0.6969 (mean 0.5541)
+         biomes=11 rivers=10 lakes=3 sea=0.5261
+[bridge] world 断言通过（起伏/生物群系/河流）
+```
 
 **迁移来的 12 个原型只做一件事：把场景"搭出来"。它们不是建模单元**，
 因为它们调用的是 `geometry.box()`，不是 `engine.csm` / `logic.wfc`。
@@ -67,17 +76,23 @@ docs/
 
 ## 推进路线（建模优先，出片最后）
 
-| 里程碑 | 内容 | 完成标志 |
-|---|---|---|
-| **M0** 能力底座 | `registry.py`：能力协议 + 自检 + 统计 | 故意写错模块路径 → 启动失败；`--list` 列出 94 个模块的接入状态 |
-| **M1** 渲染与材质 | csm / soft_shadow / volumetrics / dof / motionblur / oit / reflect / proctex / texproj / spectrum / sdf2d | 11 个 pass 可在任意场景开关，前后对比图 + 调用计数 |
-| **M2** 模拟与行为 | physics / physics3d / blocks / compute / gpu_cull / fsm / bt / fov / wfc / lsystem / dungeon / curves / noise_vec | 每个能力有"它真的跑了"的证据（轨迹 CSV / 状态日志 / 生成结果） |
-| **M3** 区域建模 | 12 个区域逐个重构成建模单元 | 每个区域：资产清单齐 + 能力调用非零 + 单区可独立渲染 |
-| **M4** 世界编排 | world/ + 流式加载 + 区域过渡 | 一条连续相机路径穿过 12 区 |
-| **M5** 出片 | delivery/ | 成片（**这一步最不重要，但必须最后做**） |
+**四仓分工**（详见 `docs/ARCHITECTURE.md`）：
+`worldbuilder`（生成）→ `superengine`（校验/装配/热重载）→ `tdworld`（渲染）→
+**`worldwright`（12 区表现与编排）**。
 
-**顺序不可颠倒**：M0-M3 没完成就做 M5，结果就是过去 10 小时的东西——
-一个奇美拉。
+| 里程碑 | 内容 | 完成标志 | 状态 |
+|---|---|---|---|
+| **W0** 桥接 | `bridge.py`：boot → 契约 → worldbuilder 世界数据 | 契约 8 条 + 世界断言过 | ✅ |
+| **W1** 三区重做 | r02/r03/r06 改消费 worldbuilder | 节点数/瓦片数与 worldbuilder 输出**一致** | 待做 |
+| **W2** 表现升级 | csm / soft_shadow / volumetrics / dof / oit 接进 render_sink | 同机位开关对比 + 调用计数 | 待做 |
+| **W3** 热调 | 接 `superengine.live`（Cordis Hmr） | 改 seed 就地重建，不重启进程 | 待做 |
+| **W4** 世界编排 | 12 区统一坐标 + 流式加载 | 一条连续路径 | 待做 |
+| **W5** 出片 | delivery | 成片（最后） | 待做 |
+
+**W3 就是"实时漫游 + 参数热调"的地基** —— `superengine/live.py` 已实现 Cordis
+`Hmr` 两阶段 reload，不需要重新调研。
+
+**顺序不可颠倒**：W0-W3 没完成就做 W5，结果就是过去 10 小时的东西。
 
 ## 与旧资产的关系
 
