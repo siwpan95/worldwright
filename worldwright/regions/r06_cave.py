@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """r06 洞窟 —— 消费 worldbuilder 的地牢图（W1 第二区）。
 
 与旧版（`film/gen/cave.py`）的区别
