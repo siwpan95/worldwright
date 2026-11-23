@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """最小预览器 —— 渲染一帧到 PNG，用来验证"世界数据真的变成了画面"。
 
 为什么不复用 `3dworld-demos/film/render/passes.py` 的 `ActRenderer`
@@ -29,7 +28,6 @@ def render_frame(scene_path, shot_path, t, out_path, size=(960, 540),
     """渲染一帧。返回 (draw_calls, triangles)。"""
     import pyglet
     from pyglet.image import get_buffer_manager
-
     from world3d.engine.camera import FlyCamera
     from world3d.engine.env import LightEnvironment
     from world3d.engine.renderer import Renderer

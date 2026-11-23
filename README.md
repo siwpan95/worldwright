@@ -76,6 +76,15 @@ docs/
 [bridge] world 断言通过（起伏/生物群系/河流）
 ```
 
+**W1 已完成两区**：
+
+| 区 | 消费什么 | 数据如何影响画面 |
+|---|---|---|
+| **r02 地脉** | `height` + `rivers` | 地形用 `height`（64×64→96×96）；**相机沿最长的一条河飞**（改 seed → 河变 → 路线变） |
+| **r06 洞窟** | `generate_dungeon()` 的 `grid/rooms/connections` | 地板/洞顶用 grid 反转；**相机沿房间连接的 BFS 序列走**（不再需要"强制清一条走廊"这种手搓补丁） |
+
+出图：`out/r02_t20.png`（河谷）、`out/r06_t30.png`（洞窟内景）。
+
 **迁移来的 12 个原型只做一件事：把场景"搭出来"。它们不是建模单元**，
 因为它们调用的是 `geometry.box()`，不是 `engine.csm` / `logic.wfc`。
 把它们重构成"调能力"的建模单元，是本项目的核心工作。
@@ -89,7 +98,7 @@ docs/
 | 里程碑 | 内容 | 完成标志 | 状态 |
 |---|---|---|---|
 | **W0** 桥接 | `bridge.py`：boot → 契约 → worldbuilder 世界数据 | 契约 8 条 + 世界断言过 | ✅ |
-| **W1** 三区重做 | r02/r03/r06 改消费 worldbuilder | 节点数/瓦片数与 worldbuilder 输出**一致** | 待做 |
+| **W1** 三区重做 | r02/r03/r06 改消费 worldbuilder | 与 worldbuilder 输出**一致** | **2/3**（r02 ✅ r06 ✅ r03 待做） |
 | **W2** 表现升级 | csm / soft_shadow / volumetrics / dof / oit 接进 render_sink | 同机位开关对比 + 调用计数 | 待做 |
 | **W3** 热调 | 接 `superengine.live`（Cordis Hmr） | 改 seed 就地重建，不重启进程 | 待做 |
 | **W4** 世界编排 | 12 区统一坐标 + 流式加载 | 一条连续路径 | 待做 |

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """r02 地脉 —— 消费 worldbuilder 的世界数据（W1 的第一个区域）。
 
 与旧版（`film/gen/terrain.py`）的根本区别
