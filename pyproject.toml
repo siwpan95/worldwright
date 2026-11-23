@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "worldwright"
+version = "0.0.1"
+description = "《造界》—— 用 3dworld 搭的世界建模项目（12 区域 / 94 能力）"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+dependencies = ["3dworld>=0.9.1", "numpy>=2.0"]
+
+[tool.setuptools.packages.find]
+include = ["worldwright*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
